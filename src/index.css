@@ -66,3 +66,79 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+/* modal  */
+/* src/components/Modal.css */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 50;
+}
+
+.modal-box {
+  background: #1e1e1e;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 400px;
+  color: #fff;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.3s ease;
+}
+
+.modal-box.success {
+  border-top: 5px solid #4caf50;
+}
+
+.modal-box.error {
+  border-top: 5px solid #f44336;
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.modal-message {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.modal-btn {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: #646cff;
+  color: white;
+  transition: background 0.25s;
+}
+
+.modal-btn:hover {
+  background: #535bf2;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Light mode */
+@media (prefers-color-scheme: light) {
+  .modal-box {
+    background: #fff;
+    color: #213547;
+  }
+}
