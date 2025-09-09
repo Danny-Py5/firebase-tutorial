@@ -6,6 +6,7 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
 } from "firebase/auth";
+// import {} from 'react-router-dom';
 import "./Auth.css";
 import auth from "../firebase-config";
 import Modal from "./Modal.tsx";
@@ -18,7 +19,7 @@ export default function Auth() {
   const [modalTitle, setModalTitle] = useState("");
   const [modalType, setModalType] = useState<"success" | "error">("success");
 
-  console.log(auth.currentUser?.photoURL);
+  // console.log(auth.currentUser?.photoURL);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -88,6 +89,7 @@ export default function Auth() {
               required
             />
           </div>
+
           <div className="form-group">
             <label>Password</label>
             <input
@@ -98,14 +100,13 @@ export default function Auth() {
               required
             />
           </div>
+
           <button type="submit" className="auth-btn">
             Login
-          </button>{" "}
-          <br />
+          </button>
           <button onClick={handleLogout} className="auth-btn">
             Logout
-          </button>{" "}
-          <br />
+          </button>
           <button onClick={handleGoogleLogin} className="auth-btn">
             Login with Google
           </button>
