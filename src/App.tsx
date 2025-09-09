@@ -96,14 +96,10 @@ function App() {
 
   // update post
   const updatePost = async (id: string) => {
-    setWorkList((p) => {
-      return p.filter((work) => {
-        if (work.id == id) {
-          work.isEditing = true;
-        }
-        return work;
-      });
-    });
+    setWorkList((prev) =>
+      prev.map((work) => (work.id === id ? { ...work, isEditing: true } : work))
+    );
+
     try {
       await updateDoc(doc(db, "works", id), {});
     } catch (error) {
