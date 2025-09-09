@@ -62,6 +62,7 @@
   border-radius: 8px;
   cursor: pointer;
   transition: background 0.25s ease;
+  margin-bottom: 0.4rem;
 }
 
 .auth-btn:hover {
