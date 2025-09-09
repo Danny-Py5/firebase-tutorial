@@ -6,8 +6,9 @@ import {
   getDocs,
   updateDoc,
 } from "firebase/firestore";
-import { db } from "./firebase-config";
+import auth, { db } from "./firebase-config";
 import React, { useState, useEffect } from "react";
+import { signOut } from "firebase/auth";
 
 interface Work {
   description: string;
@@ -308,6 +309,21 @@ function Dashboard({ user }) {
               </button>
             </div>
           ))}
+
+          <p
+            onClick={async () => {
+              signOut(auth);
+            }}
+            style={{
+              color: "pink",
+              padding: "0 2rem",
+              border: "2px solid red",
+              borderRadius: "1rem",
+              cursor: "pointer",
+            }}
+          >
+            {"Logout \u2192"}
+          </p>
         </div>
       )}
     </>
