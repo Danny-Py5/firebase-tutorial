@@ -41,6 +41,8 @@ function App() {
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
 
+  const [editTitleInput, setEditTitleInput] = useState("");
+
   const fetchWorks = async () => {
     setLoading(true);
     const works = await getDocs(collection(db, "works"));
@@ -95,15 +97,28 @@ function App() {
   };
 
   // update post
-  const updatePost = async (id: string) => {
-    setWorkList((prev) =>
+  const editPost = async (id: string) => {
+    return setWorkList((prev) =>
       prev.map((work) => (work.id === id ? { ...work, isEditing: true } : work))
     );
+  };
 
+  const updatePostTitle = async (id: string) => {
+    // update the workList array
+    setWorkList(() =>
+      workList.map((work) =>
+        work.id == id
+          ? { ...work, type: editTitleInput, isEditing: false }
+          : work
+      )
+    );
     try {
-      await updateDoc(doc(db, "works", id), {});
+      await updateDoc(doc(db, "works", id), { type: editTitleInput });
+      setEditTitleInput("");
     } catch (error) {
       console.error(error);
+      // update user if updating in firestore fails
+      // code goes here...
     }
   };
   return (
@@ -222,7 +237,20 @@ function App() {
                 {work.type.toUpperCase()}
               </h3>{" "}
               {work.isEditing == true ? (
-                <input type="text" placeholder="Edit work title" />
+                <div style={{ display: "flex", gap: "1rem" }}>
+                  <input
+                    value={editTitleInput}
+                    onChange={(e) => setEditTitleInput(e.target.value)}
+                    type="text"
+                    placeholder="Edit work title"
+                  />
+                  <span
+                    onClick={() => updatePostTitle(work.id)}
+                    style={{ color: "lightgreen", cursor: "pointer" }}
+                  >
+                    Save
+                  </span>
+                </div>
               ) : (
                 ""
               )}
@@ -276,7 +304,7 @@ function App() {
                   color: "green",
                   borderColor: "green",
                 }}
-                onClick={() => updatePost(work.id)}
+                onClick={() => editPost(work.id)}
               >
                 Edit
               </button>
