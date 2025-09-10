@@ -2,22 +2,20 @@
 import { useState } from "react";
 import {
   createUserWithEmailAndPassword,
-  signOut,
   signInWithPopup,
   GoogleAuthProvider,
 } from "firebase/auth";
 // import {} from 'react-router-dom';
 import "./Auth.css";
 import auth from "../firebase-config";
-import Modal from "./Modal.tsx";
+import { useNavigate } from "react-router-dom";
+// import Modal from "./Modal.tsx";
 
 export default function Auth() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalMessage, setModalMessage] = useState("");
-  const [modalTitle, setModalTitle] = useState("");
-  const [modalType, setModalType] = useState<"success" | "error">("success");
+
+  const navigate = useNavigate();
 
   // console.log(auth.currentUser?.photoURL);
 
@@ -44,33 +42,15 @@ export default function Auth() {
     }
   };
 
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      setModalTitle("Success 🎉");
-      setModalMessage("User logged out successfully!");
-      setModalType("success");
-      setModalOpen(true);
-    } catch (error) {
-      setModalTitle("Error ❌");
-      setModalMessage(error.message);
-      setModalType("error");
-      setModalOpen(true);
-    }
+  const signUp = () => {
+    navigate("/signup");
   };
   const handleGoogleLogin = async () => {
     try {
       const googleProvider = new GoogleAuthProvider();
-      const result = await signInWithPopup(auth, googleProvider);
-      setModalTitle("Success 🎉");
-      setModalMessage(`User ${result.user.email} logged in successfully!`);
-      setModalType("success");
-      setModalOpen(true);
+      await signInWithPopup(auth, googleProvider);
     } catch (error) {
-      setModalTitle("Error ❌");
-      setModalMessage(error.message);
-      setModalType("error");
-      setModalOpen(true);
+      console.error(error);
     }
   };
 
@@ -104,23 +84,25 @@ export default function Auth() {
           <button type="submit" className="auth-btn">
             Login
           </button>
-          <button onClick={handleLogout} className="auth-btn">
-            Logout
-          </button>
           <button onClick={handleGoogleLogin} className="auth-btn">
             Login with Google
           </button>
         </form>
+        <br />
+        <hr />
+        <button onClick={signUp} className="auth-btn">
+          Sign Up
+        </button>
       </div>
 
-      {/* Modal */}
+      {/* Modal
       <Modal
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
         title={modalTitle}
         message={modalMessage}
         type={modalType}
-      />
+      /> */}
     </div>
   );
 }

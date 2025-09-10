@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { onAuthStateChanged, type User } from "firebase/auth";
 import Auth from "./components/Auth";
 import auth from "./firebase-config";
-import Dashboard from "./dashboard";
+import Dashboard from "./Dashboard";
 
 function App() {
   const [user, setUser] = useState<User | null>(null);

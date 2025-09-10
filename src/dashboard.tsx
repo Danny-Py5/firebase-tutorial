@@ -18,6 +18,7 @@ interface Work {
   type: string;
   id: string;
   isEditing: boolean;
+  userId: string;
 }
 
 function Dashboard({ user }) {
@@ -33,6 +34,7 @@ function Dashboard({ user }) {
       type: "",
       id: "",
       isEditing: false,
+      userId: "",
     },
   ]);
 
@@ -78,7 +80,9 @@ function Dashboard({ user }) {
         location,
         price,
         description,
+        userId: auth.currentUser?.uid,
       });
+      console.log(auth.currentUser?.uid);
       emptyFeilds();
       fetchWorks();
     } catch (e) {
@@ -127,6 +131,9 @@ function Dashboard({ user }) {
         welcome to Dashboard{" "}
         <span style={{ color: "#229ac9" }}>{user.displayName}</span>
       </h1>
+      <p>
+        Email: <span>{user.email}</span>
+      </p>
       <h2 style={{ textAlign: "center" }}>Using CRUD operation</h2>
 
       {/* create */}
@@ -291,22 +298,26 @@ function Dashboard({ user }) {
               >
                 ₦{work.price.toLocaleString()}
               </p>
-              <button
-                style={{ background: "firebrick" }}
-                onClick={() => deletePost(work.id)}
-              >
-                Delete work
-              </button>
-              <button
-                style={{
-                  marginLeft: "8px",
-                  color: "green",
-                  borderColor: "green",
-                }}
-                onClick={() => editPost(work.id)}
-              >
-                Edit
-              </button>
+              {work.userId === auth.currentUser?.uid && (
+                <>
+                  <button
+                    style={{ background: "firebrick" }}
+                    onClick={() => deletePost(work.id)}
+                  >
+                    Delete work
+                  </button>
+                  <button
+                    style={{
+                      marginLeft: "8px",
+                      color: "green",
+                      borderColor: "green",
+                    }}
+                    onClick={() => editPost(work.id)}
+                  >
+                    Edit
+                  </button>
+                </>
+              )}
             </div>
           ))}
 
